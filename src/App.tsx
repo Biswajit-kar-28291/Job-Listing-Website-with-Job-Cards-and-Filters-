@@ -1,13 +1,14 @@
-
-import './App.css'
+import React from "react";
+import Navbar from "./components/Navbar";
+import Layout from "./components/Layout.jsx";
 
 function App() {
-
   return (
     <>
-      <h1>hello</h1>
+      <Navbar />
+      <Layout />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
