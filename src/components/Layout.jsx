@@ -1,4 +1,5 @@
 import React from "react";
+import JobList from "./JobList";
 
 function Layout() {
   return (
@@ -17,12 +18,8 @@ function Layout() {
 
         {/* Job Section */}
         <div className="col-md-9">
-          <div className="card shadow-sm">
-            <div className="card-body">
-              <h5 className="fw-bold mb-3">Job Listings</h5>
-              <p>Job cards will display here.</p>
-            </div>
-          </div>
+          <h4 className="mb-3 fw-bold">Available Jobs</h4>
+          <JobList />
         </div>
 
       </div>
