@@ -5,7 +5,10 @@ const jobs = [
     company: "TechSoft Pvt Ltd",
     location: "Mumbai",
     experience: "Fresher",
-    category: "IT"
+    category: "IT",
+    salary: "3 - 5 LPA",
+    description:
+      "We are looking for a passionate frontend developer with knowledge of HTML, CSS, JavaScript and React."
   },
   {
     id: 2,
@@ -13,7 +16,10 @@ const jobs = [
     company: "CodeBase Solutions",
     location: "Delhi",
     experience: "Mid-Level",
-    category: "IT"
+    category: "IT",
+    salary: "5 - 8 LPA",
+    description:
+      "Looking for backend developer with Node.js and database knowledge. Experience with APIs is required."
   },
   {
     id: 3,
@@ -21,7 +27,10 @@ const jobs = [
     company: "Design Studio",
     location: "Bangalore",
     experience: "Senior",
-    category: "Design"
+    category: "Design",
+    salary: "6 - 10 LPA",
+    description:
+      "Seeking creative UI/UX designer with Figma and Adobe XD experience."
   }
 ];
 
