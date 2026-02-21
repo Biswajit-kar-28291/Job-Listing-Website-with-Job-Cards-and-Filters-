@@ -1,19 +1,15 @@
 import React from "react";
 import JobList from "./JobList";
+import Filter from "./Filter";
 
 function Layout() {
   return (
     <div className="container mt-4">
       <div className="row">
 
-        {/* Sidebar */}
+        {/* Sidebar Filter */}
         <div className="col-md-3 mb-3">
-          <div className="card shadow-sm">
-            <div className="card-body">
-              <h5 className="fw-bold mb-3">Filters</h5>
-              <p>Filter options will come here.</p>
-            </div>
-          </div>
+          <Filter />
         </div>
 
         {/* Job Section */}
