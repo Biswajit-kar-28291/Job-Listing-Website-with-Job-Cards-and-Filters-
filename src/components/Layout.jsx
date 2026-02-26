@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
-import JobList from "./JobList";
-import Filter from "./Filter";
 import jobsData from "../data/jobs";
+import Filter from "./Filter";
+import JobList from "./JobList";
 
 function Layout() {
-
   const [search, setSearch] = useState("");
   const [location, setLocation] = useState("");
   const [category, setCategory] = useState("");
   const [experience, setExperience] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const jobsPerPage = 6;
 
-  const filteredJobs = jobsData.filter((job) => {
+  // 🔎 Filtering
+  let filteredJobs = jobsData.filter((job) => {
     return (
       job.title.toLowerCase().includes(search.toLowerCase()) &&
       (location === "" || job.location === location) &&
@@ -22,29 +23,45 @@ function Layout() {
     );
   });
 
-  // Reset page when filters change
+  // 🔄 Sorting
+  if (sortOrder === "low-high") {
+    filteredJobs.sort(
+      (a, b) => parseInt(a.salary) - parseInt(b.salary)
+    );
+  } else if (sortOrder === "high-low") {
+    filteredJobs.sort(
+      (a, b) => parseInt(b.salary) - parseInt(a.salary)
+    );
+  }
+
+  // 🔁 Reset page when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [search, location, category, experience]);
+  }, [search, location, category, experience, sortOrder]);
 
-  // Pagination Logic
-  const indexOfLastJob = currentPage * jobsPerPage;
-  const indexOfFirstJob = indexOfLastJob - jobsPerPage;
-  const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
+  const indexOfLast = currentPage * jobsPerPage;
+  const indexOfFirst = indexOfLast - jobsPerPage;
+  const currentJobs = filteredJobs.slice(
+    indexOfFirst,
+    indexOfLast
+  );
 
-  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
+  const totalPages = Math.ceil(
+    filteredJobs.length / jobsPerPage
+  );
 
+  // 🔁 Reset Filters
   const resetFilters = () => {
     setSearch("");
     setLocation("");
     setCategory("");
     setExperience("");
+    setSortOrder("");
   };
 
   return (
     <div className="container mt-4">
       <div className="row">
-
         <div className="col-md-3 mb-3">
           <Filter
             search={search}
@@ -55,57 +72,37 @@ function Layout() {
             setCategory={setCategory}
             experience={experience}
             setExperience={setExperience}
+            sortOrder={sortOrder}
+            setSortOrder={setSortOrder}
             resetFilters={resetFilters}
           />
         </div>
 
         <div className="col-md-9">
-          <h4 className="mb-3 fw-bold">Available Jobs</h4>
           <JobList jobs={currentJobs} />
 
-          {/* Pagination */}
           {totalPages > 1 && (
-            <nav className="mt-4">
-              <ul className="pagination justify-content-center">
-
-                <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+            <ul className="pagination justify-content-center mt-4">
+              {[...Array(totalPages)].map((_, i) => (
+                <li
+                  key={i}
+                  className={`page-item ${
+                    currentPage === i + 1 ? "active" : ""
+                  }`}
+                >
                   <button
                     className="page-link"
-                    onClick={() => setCurrentPage(currentPage - 1)}
+                    onClick={() =>
+                      setCurrentPage(i + 1)
+                    }
                   >
-                    Previous
+                    {i + 1}
                   </button>
                 </li>
-
-                {[...Array(totalPages)].map((_, index) => (
-                  <li
-                    key={index}
-                    className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
-                  >
-                    <button
-                      className="page-link"
-                      onClick={() => setCurrentPage(index + 1)}
-                    >
-                      {index + 1}
-                    </button>
-                  </li>
-                ))}
-
-                <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-                  <button
-                    className="page-link"
-                    onClick={() => setCurrentPage(currentPage + 1)}
-                  >
-                    Next
-                  </button>
-                </li>
-
-              </ul>
-            </nav>
+              ))}
+            </ul>
           )}
-
         </div>
-
       </div>
     </div>
   );
